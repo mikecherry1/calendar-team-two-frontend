@@ -84,10 +84,12 @@
     </div>
 
     <!--Calendar reset button-->
-    <div class="reset"> <ul><li id="resetCalendar" onclick="deleteEvents()">
-        <a class="waves-effect waves-purple blue-greu darken-2 btn-small">
-            <i class="material-icons right"></i>Reset Calendar</a>
-        </li>     
+    <div class="reset">
+        <ul>
+            <li id="resetCalendar" onclick="deleteEvents()">
+                <a class="waves-effect waves-purple blue-greu darken-2 btn-small">
+                    <i class="material-icons right"></i>Reset Calendar</a>
+            </li>
         </ul>
     </div>
     <form action="" method="">
@@ -112,27 +114,25 @@
             </div>
             <input type="submit" value="Set Alarm!" id="submitbutton" />
             <input type="button" value="Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm" />
-        </form>
-        <div class="container">
-            <div class="row">
-                    <div class="col m4 pull-m1 left">
-                    <div class="mapouter" id="map">
-                            <div class="gmap_canvas">
-                                <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=furnace rd,alexandria&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                            </div>
+        </div>
+    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col m4 pull-m1 left">
+                <div class="mapouter" id="map">
+                    <div class="gmap_canvas">
+                        <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=furnace rd,alexandria&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
                     </div>
-                    </div>
-                    <div class="col m5 right">
-                        <img alt=""
-                            src="http://radar.weather.gov/Conus/Loop/NatLoop_Small.gif">
-                    </div>
-
+                </div>
+            </div>
+            <div class="col m5 right">
+                <img alt="" src="http://radar.weather.gov/Conus/Loop/NatLoop_Small.gif">
             </div>
 
         </div>
 
-    </form>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 </body>
 
