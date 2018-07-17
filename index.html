@@ -48,7 +48,7 @@
                     <i class="material-icons right">arrow_forward</i>Next Month</a>
             </li>
             <li id="month" style="text-align: center;"></li>
-            <li id="year" style="font-size: 16px; text-align: center;"></li>
+            <li id="year" style="font-size: 30px; text-align: center;"></li>
             <li id="reset" style="text-align: center;" onclick="resetToPresent()" class="reset">
                 <a class="waves-effect light blue-darken-3 btn">Reset to Present</a>
             </li>
@@ -86,35 +86,36 @@
     <!--Calendar reset button-->
     <div class="reset" ; <ul <li id="resetCalendar" onclick="deleteEvents()">
         <a class="waves-effect waves-purple blue-greu darken-2 btn-small">
-            <i class="material-icons right"><Reset Calendar/i>Reset Calendar</a>
-        </li>     
+            <i class="material-icons right">
+                <Reset Calendar/i>Reset Calendar</a>
+        </li>
         </ul>
-        </div>
+    </div>
     <form action="" method="">
-            <div id="jsalarmclock">
-                <div>
-                    <div class="leftcolumn">Set Alarm:</div>
-                    <span id="jsalarm_ct" style="letter-spacing: 2px"></span>
-                </div>
-                <div>
-                    <div class="leftcolumn" title="Real Time in EST">Hour:</div>
-                    <span>
-                        <select class="browser-default"></select>
-                    </span>
-                    <div class="leftcolumn" title="Real Time in EST">Minutes:</div>
-                    <span>
-                        <select class="browser-default"></select>
-                    </span>
-                    <div class="leftcolumn" title="Real Time in EST">Seconds:</div>
-                    <span>
-                        <select class="browser-default"></select>
-                    </span>
-                </div>
-                <input type="submit" value="Set Alarm!" id="submitbutton" />
-                <input type="button" value="Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm" />
+        <div id="jsalarmclock">
+            <div>
+                <div class="leftcolumn">Set Alarm:</div>
+                <span id="jsalarm_ct" style="letter-spacing: 2px"></span>
             </div>
-    
-        </form>
+            <div>
+                <div class="leftcolumn" title="Real Time in EST">Hour:</div>
+                <span>
+                    <select class="browser-default"></select>
+                </span>
+                <div class="leftcolumn" title="Real Time in EST">Minutes:</div>
+                <span>
+                    <select class="browser-default"></select>
+                </span>
+                <div class="leftcolumn" title="Real Time in EST">Seconds:</div>
+                <span>
+                    <select class="browser-default"></select>
+                </span>
+            </div>
+            <input type="submit" value="Set Alarm!" id="submitbutton" />
+            <input type="button" value="Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm" />
+        </div>
+
+    </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 </body>
 
