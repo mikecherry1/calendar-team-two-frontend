@@ -84,12 +84,12 @@
     </div>
 
     <!--Calendar reset button-->
-    <div class="reset" ; <ul <li id="resetCalendar" onclick="deleteEvents()">
+    <div class="reset"> <ul><li id="resetCalendar" onclick="deleteEvents()">
         <a class="waves-effect waves-purple blue-greu darken-2 btn-small">
-            <i class="material-icons right"><Reset Calendar/i>Reset Calendar</a>
+            <i class="material-icons right"></i>Reset Calendar</a>
         </li>     
         </ul>
-        </div>
+    </div>
     <form action="" method="">
             <div id="jsalarmclock">
                 <div>
@@ -115,6 +115,24 @@
             </div>
     
         </form>
+        <div class="container">
+            <div class="row">
+                    <div class="col m4 pull-m1 left">
+                    <div class="mapouter" id="map">
+                            <div class="gmap_canvas">
+                                <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=furnace rd,alexandria&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                            </div>
+                    </div>
+                    </div>
+                    <div class="col m5 right">
+                        <img alt=""
+                            src="http://radar.weather.gov/Conus/Loop/NatLoop_Small.gif">
+                    </div>
+
+            </div>
+
+        </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 </body>
 
