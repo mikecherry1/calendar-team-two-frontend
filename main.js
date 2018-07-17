@@ -7,13 +7,8 @@ const ENTER_KEY = 13;
 
 var alarm = new Audio("http://soundbible.com/grab.php?id=2197&type=mp3");
 var input = document.getElementById("textInput");
-
 window.addEventListener('load', load, false);
-$(document).ready(function(){
-    $('select').formSelect();
-    $('option').formSelect();
-});
-
+    
 function load() {
     let input = document.getElementById("textInput");
 
