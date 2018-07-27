@@ -13,6 +13,22 @@
     width: 600px;
 }
 
+#popupbox{
+    margin: 0; 
+    margin-left: 40%; 
+    margin-right: 40%;
+    margin-top: 50px; 
+    padding-top: 10px; 
+    width: 20%; 
+    height: 150px; 
+    position: absolute; 
+    background: #FBFBF0; 
+    border: solid #000000 2px; 
+    z-index: 9; 
+    font-family: arial; 
+    visibility: hidden; 
+}
+
 .gmap_canvas {
     overflow: hidden;
     background: none !important;
@@ -21,6 +37,20 @@
 }
 
 #event-form {
+    display: none;
+    box-shadow: 0 2px 4px #3483;
+    position: fixed;
+    width: 300px;
+    transform: translate(-50%, -100%);
+    z-index: 10;
+    padding: 1rem;
+    background-color: white;
+    border: 1px #3483 solid;
+    flex-direction: column;
+    align-content: space-between;
+}
+
+#login-form {
     display: none;
     box-shadow: 0 2px 4px #3483;
     position: fixed;

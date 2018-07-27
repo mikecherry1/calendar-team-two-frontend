@@ -7,6 +7,8 @@ const ENTER_KEY = 13;
 let client;
 let db;
 let credential;
+let username = '';
+let password = '';
 
 var alarm = new Audio("http://soundbible.com/grab.php?id=2197&type=mp3");
 var input = document.getElementById("textInput");
@@ -17,14 +19,50 @@ $(document).ready(function(){
     $('option').formSelect();
 });
 
+function login(){
+    username = document.getElementById("usernameInput");
+    password = document.getElementById("passwordInput");
+    let loginForm = document.getElementById("login-form");
+
+    loginForm.classList.add("inactive");
+    loginForm.classList.remove("active");
+    usernameInput.value = "";
+    passwordInput.value = "";
+}
+
+
+
 function load() {
     let input = document.getElementById("textInput");
-    client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
-    credential = new stitch.UserPasswordCredential("user@example.com", "password")
+    let theButton = document.getElementById("loginLink");
 
-    db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
+    theButton.onclick = function () {
+    var thePrompt = window.open("", "", "height=200,width=500");
+    var theHTML = "";
 
-    loadEvents();
+    theHTML += "Username: <input type='text' id='theUser' placeholder='Enter Username...'/>";
+    theHTML += "<br />";
+    theHTML += "Password: <input type='password' id='thePass' placeholder='Enter Password...'/>";
+    theHTML += "<br />";
+    theHTML += "<input type='button' value='OK' id='authOK'/>";
+    thePrompt.document.body.innerHTML = theHTML;
+
+    
+
+    thePrompt.document.getElementById("authOK").onclick = function () {
+        username = thePrompt.document.getElementById("theUser").value;
+        password = thePrompt.document.getElementById("thePass").value;
+        client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
+        credential = new stitch.UserPasswordCredential(username, password)
+
+        db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
+
+        loadEvents();
+        thePrompt.close();
+    }
+    }
+
+    
 
     input.addEventListener("keydown", function (event) {
         if (event.keyCode === ENTER_KEY) {
@@ -291,6 +329,18 @@ function create(event) {
     
 }
 
+function promptForPassword() {
+    username = prompt("Please enter your username").toString();
+    password = prompt("Please enter your password").toString();
+
+    client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
+    credential = new stitch.UserPasswordCredential(username, password)
+
+    db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
+
+    loadEvents();
+}
+
 function clickedBox(event) {
 
     let eventForm = document.getElementById("event-form");
@@ -303,6 +353,22 @@ function clickedBox(event) {
 
     p.innerHTML = span.value.format('MMMM DD YYYY');
     eventForm.value = span.value;
+}
+
+function clickedLogin(event) {
+
+    let loginForm = document.getElementById("login-form");
+    loginForm.classList.remove("inactive");
+    loginForm.classList.add("active");
+    loginForm.style = "top: " + 500 + "; left: " + 500;
+    console.log(event.clientY + " " + event.clientX)
+    let p = loginForm.getElementsByTagName("p")[0];
+    let span = event.target.getElementsByTagName("span")[0];
+    document.getElementById("timeInput").select();
+
+    //p.innerHTML = span.value.format('MMMM DD YYYY');
+    //eventForm.value = span.value;
+
 }
 
 function closeBox() {

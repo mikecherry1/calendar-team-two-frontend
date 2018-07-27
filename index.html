@@ -24,9 +24,9 @@
     <div style="background-color:rgb(255, 255, 255)" class="header">
         <h1 class="center-align">ITTP Team Two Calendar</h1>
         <div>
-            <!--<a href="/logout">Logout</a>-->
             <iframe style="display:block;" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=small&timezone=America%2FNew_York" height="90" frameborder="0"></iframe>
         </div>
+        <p id="loginLink" onclick="promptForPassword()">Login</p>
     </div>
 
     <!--Cycle buttons for changing years and months-->
@@ -84,6 +84,20 @@
         <button id="close-button" onclick="closeBox()">&#10005</button>
     </div>
 
+    <div id="login-form" class="inactive" style="top: 500; left: 500;">
+        <h4>Login</h4>
+        <p></p>
+        <div class="text">
+            Username:
+            <input id="usernameInput" type="text" /> Password:
+            <input id="passwordInput" type="text" />
+        </div>
+        <div class="buttons">
+            <button onclick="login()"> Login</button>
+        </div>
+        <button id="close-button" onclick="closeBox()">&#10005</button>
+    </div>
+
     <!--Calendar reset button-->
     <div class="reset">
         <ul>
@@ -133,20 +147,8 @@
         </div>
 
     </div>
-	<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAKlfcrNIY9dtbaGRM37HZcIKyy5TKp86o",
-    authDomain: "calendar-team-two.firebaseapp.com",
-    databaseURL: "https://calendar-team-two.firebaseio.com",
-    projectId: "calendar-team-two",
-    storageBucket: "calendar-team-two.appspot.com",
-    messagingSenderId: "94137178756"
-  };
-  firebase.initializeApp(config);
-</script>
 
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 </body>
 
