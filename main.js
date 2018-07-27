@@ -4,6 +4,9 @@ let year = moment().year();
 let today = moment().date();
 let events = [];
 const ENTER_KEY = 13;
+let client;
+let db;
+let credential;
 
 var alarm = new Audio("http://soundbible.com/grab.php?id=2197&type=mp3");
 var input = document.getElementById("textInput");
@@ -16,6 +19,12 @@ $(document).ready(function(){
 
 function load() {
     let input = document.getElementById("textInput");
+    client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
+    credential = new stitch.UserPasswordCredential("user@example.com", "password")
+
+    db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
+
+    loadEvents();
 
     input.addEventListener("keydown", function (event) {
         if (event.keyCode === ENTER_KEY) {
@@ -102,15 +111,18 @@ function load() {
 }
 
 function deleteEvents() {
-	events = [];
-	loadDates();
+    events = [];
+    client.auth.loginWithCredential(credential).then(() => db.collection('Events').deleteMany()).then(() => 
+        loadEvents()
+    );
+    
 }
 
 function resetToPresent() {
     month = moment().month() + 1;
     year = moment().year();
 
-    loadDates();
+    loadEvents();
 }
 
 function myMap() {
@@ -166,6 +178,23 @@ function myMap() {
     }
 }(this));
 
+function loadEvents() {
+
+    client.auth.loginWithCredential(credential).then(() => db.collection('Events').find({owner_id: client.auth.user.id}).asArray())
+        .then(docs => {
+            events = [];
+
+            for(let doc of docs) {
+                events.push(doc.event);
+            }
+
+            loadDates();
+        }).catch(err => {
+            console.error(err)
+        });
+
+}
+
 function loadDates() {
     if (month == moment().month() + 1 && year == moment().year()) {
         document.getElementById("reset").style.visibility = "hidden";
@@ -216,7 +245,6 @@ function loadDates() {
                 if (span.value.format("MMMM DD YYYY") == moment(events[i].date).format("MMMM DD YYYY")) {
                     span.id = i;
                     span.innerHTML = span.innerHTML + events[i].time + ": " + events[i].note + "<br />";
-                    //console.log(span.id);
                 }
             }
 
@@ -242,20 +270,25 @@ function create(event) {
     let textInput = document.getElementById("textInput");
     let timeInput = document.getElementById("timeInput");
     let eventForm = document.getElementById("event-form");
-	
+    
     if (textInput.value.length > 0) {
-        events.push({
-            date: eventForm.value,
-            time: timeInput.value,
-            note: textInput.value
-        });
-		console.log(events);
+        let textValue = textInput.value;
+        let timeValue = timeInput.value;
+
+        client.auth.loginWithCredential(credential).then(() =>
+            db.collection('Events').insertOne({owner_id: client.auth.user.id, event: {date: eventForm.value.format("MMMM DD YYYY"), 
+            time: timeValue, note: textValue}}).then(() => {
+                loadEvents();
+            }).catch(err => {
+                console.error(err)
+            }));
     }
     eventForm.classList.add("inactive");
     eventForm.classList.remove("active");
     textInput.value = "";
     timeInput.value = "";
-    loadDates();
+
+    
 }
 
 function clickedBox(event) {
@@ -342,7 +375,7 @@ function incrementMonth() {
         month += 1;
     }
 
-    loadDates();
+    loadEvents();
 }
 
 function decrementMonth() {
@@ -353,17 +386,17 @@ function decrementMonth() {
         month -= 1;
     }
 
-    loadDates();
+    loadEvents();
 }
 
 function incrementYear() {
     year++;
 
-    loadDates();
+    loadEvents();
 }
 
 function decrementYear() {
     year--;
 
-    loadDates();
+    loadEvents();
 }
