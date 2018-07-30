@@ -1,6 +1,10 @@
-<<<<<<< HEAD * {
+* {
     box-sizing: border-box;
     font-family: Roboto, Helvetica, sans-serif;
+}
+
+#logoutLink {
+    visibility: hidden;
 }
 
 #reset {
@@ -279,7 +283,7 @@ input[type=submit]:hover {
 }
 
 h1:hover {
-    color: rgb(72, 72, 119))
+    color: rgb(72, 72, 119)
     /* outline: 1px solid red; */
 }
 

@@ -23,10 +23,14 @@ function load() {
     let input = document.getElementById("textInput");
     let loginButton = document.getElementById("loginLink");
     let logoutButton = document.getElementById("logoutLink");
+    //logoutButton.style.visibility = "hidden";
 
     client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
 
     logoutButton.onclick = function () {
+        logoutButton.style.visibility = "hidden";
+        loginButton.style.visibility = "visible";
+
         username = '';
         password = '';
         credential = undefined;
@@ -155,6 +159,10 @@ function load() {
 }
 
 function deleteEvents() {
+    if(credential == undefined) {
+        return;
+    }
+    
     events = [];
     client.auth.loginWithCredential(credential).then(() => db.collection('Events').deleteMany()).then(() => 
         loadEvents()
@@ -223,6 +231,8 @@ function myMap() {
 }(this));
 
 function loadEvents() {
+    let loginButton = document.getElementById("loginLink");
+    let logoutButton = document.getElementById("logoutLink");
 
     client.auth.loginWithCredential(credential).then(() => db.collection('Events').find({owner_id: client.auth.user.id}).asArray())
         .then(docs => {
@@ -233,10 +243,16 @@ function loadEvents() {
             }
 
             loadDates();
+            
+            loginButton.style.visibility = "hidden";
+            logoutButton.style.visibility = "visible";
+
         }).catch(err => {
             events = [];
             loadDates();
 
+            loginButton.style.visibility = "visible";
+            logoutButton.style.visibility = "hidden";
             console.error(err)
         });
 
