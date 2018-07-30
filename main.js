@@ -10,9 +10,12 @@ let db;
 let credential;
 let username = '';
 let password = '';
+let alarmTimes = [];
 
 let alarm = new Audio("http://soundbible.com/grab.php?id=2197&type=mp3");
 let input = document.getElementById("textInput");
+
+let jsalarm = {};
 
 window.addEventListener('load', load, false);
 $(document).ready(function(){
@@ -99,12 +102,15 @@ function load() {
     });
     
     //http://www.javascriptkit.com/script/script2/alarm.shtml
-    var jsalarm = {
+    jsalarm = {
         padfield: function(f) {
             return (f < 10) ? "0" + f : f
         },
         showcurrenttime: function() {
             var dateobj = new Date()
+
+            this.findClosestTime();
+
             var ct = this.padfield(dateobj.getHours()) + ":" + this.padfield(dateobj.getMinutes()) + ":" + this.padfield(dateobj.getSeconds())
             this.ctref.innerHTML = ct
             this.ctref.setAttribute("title", ct)
@@ -115,6 +121,46 @@ function load() {
                     alarm.play()
                     alert("Check Your Calendar")
                 }
+            }
+        },
+        findClosestTime: function() {
+            let currentTime = moment();
+
+            let validAlarmTimes = [];
+
+            for(let e of alarmTimes) {
+                let alarmHour = moment(e, ["h:mm A"]).format("HH");
+                let alarmMinutes = moment(e, ["h:mm A"]).format("m");
+
+                if(alarmHour >= currentTime.format("H")
+                   && alarmMinutes >= currentTime.format("m")) {
+                       validAlarmTimes.push(e);
+                }
+            }
+
+            let minElement = undefined;
+            let minHour = 0;
+            let minMinutes = 0;
+
+            for(let i = 0; i < validAlarmTimes.length; i++) {
+                let alarmHour = moment(validAlarmTimes[i], ["h:mm A"]).format("HH");
+                let alarmMinutes = moment(validAlarmTimes[i], ["h:mm A"]).format("m");
+
+                if(i === 0) {
+                    minElement = validAlarmTimes[i];
+                    minHour = alarmHour;
+                    minMinutes = minMinutes;
+                } else {
+                    if(alarmHour < minHour && alarmMinutes < minMinutes) {
+                        minElement = validAlarmTimes[i];
+                        minHour = alarmHour;
+                        minMinutes = minMinutes;
+                    }
+                }
+            }
+
+            if(minElement != undefined) {
+                this.setEventAlarm(minElement);
             }
         },
         init: function() {
@@ -171,6 +217,14 @@ function load() {
             this.minuteselect.disabled = true
             this.secondselect.disabled = true
         },
+        setEventAlarm: function(alarmTime) {
+            this.hourwake = moment(alarmTime, ["h:mm A"]).format("HH")
+            this.minutewake = moment(alarmTime, ["h:mm A"]).format("mm")
+            this.secondwake = moment(alarmTime, ["h:mm A"]).format("ss")
+            this.hourselect.disabled = true
+            this.minuteselect.disabled = true
+            this.secondselect.disabled = true
+        }
     }
     
     jsalarm.init();
@@ -329,6 +383,13 @@ function loadDates() {
             //adds the events to the date
             for (let i = 0; i < events.length; i++) {
                 if (span.value.format("MMMM DD YYYY") == moment(events[i].date).format("MMMM DD YYYY")) {
+                    //getting the times for the alarm
+                    if (events[i].date == moment(todaysDate).format("MMMM DD YYYY")) {
+                        if(!alarmTimes.includes(events[i].time)) {
+                            alarmTimes.push(events[i].time);
+                        }
+                    }
+
                     span.id = i;
                     span.innerHTML = span.innerHTML + events[i].time + ": " + events[i].note + "<br />";
                 }
@@ -348,7 +409,6 @@ function loadDates() {
             days.appendChild(li);
         }
     }
-
 
 }
 
@@ -386,7 +446,6 @@ function create(event) {
 }
 
 function clickedBox(event) {
-
     let eventForm = document.getElementById("event-form");
     eventForm.classList.remove("inactive");
     eventForm.classList.add("active");
