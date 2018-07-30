@@ -21,11 +21,22 @@ $(document).ready(function(){
 
 function load() {
     let input = document.getElementById("textInput");
-    let theButton = document.getElementById("loginLink");
+    let loginButton = document.getElementById("loginLink");
+    let logoutButton = document.getElementById("logoutLink");
+
     client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
 
-    theButton.onclick = function () {
-        let thePrompt = window.open("", "", "height=200,width=500");
+    logoutButton.onclick = function () {
+        username = '';
+        password = '';
+        credential = undefined;
+        db = undefined;
+        events = [];
+        loadDates();
+    }
+
+    loginButton.onclick = function () {
+        let thePrompt = window.open("", "", "height=150,width=300");
         let theHTML = "";
 
         theHTML += "Username: <input type='text' id='theUser' placeholder='Enter Username'/>";
@@ -58,7 +69,6 @@ function load() {
         }
     }
 
-    
 
     input.addEventListener("keydown", function (event) {
         if (event.keyCode === ENTER_KEY) {
@@ -312,19 +322,27 @@ function create(event) {
         let textValue = textInput.value;
         let timeValue = timeInput.value;
 
+        if(credential == undefined) {
+            resetForm();
+            return;
+        }
+
         client.auth.loginWithCredential(credential).then(() =>
             db.collection('Events').insertOne({owner_id: client.auth.user.id, event: {date: eventForm.value.format("MMMM DD YYYY"), 
             time: timeValue, note: textValue}}).then(() => {
                 loadEvents();
+                resetForm();
             }).catch(err => {
                 console.error(err)
             }));
     }
-    eventForm.classList.add("inactive");
-    eventForm.classList.remove("active");
-    textInput.value = "";
-    timeInput.value = "";
 
+    function resetForm() {
+        eventForm.classList.add("inactive");
+        eventForm.classList.remove("active");
+        textInput.value = "";
+        timeInput.value = "";
+    }
     
 }
 
