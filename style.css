@@ -163,9 +163,7 @@ ul {
 .month .prev {
     float: left;
     padding: 10px;
-    if(month==December) {
-        style background-color: white;
-    }
+    background-color: white;
 }
 
 .month .next {
