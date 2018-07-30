@@ -19,47 +19,43 @@ $(document).ready(function(){
     $('option').formSelect();
 });
 
-function login(){
-    username = document.getElementById("usernameInput");
-    password = document.getElementById("passwordInput");
-    let loginForm = document.getElementById("login-form");
-
-    loginForm.classList.add("inactive");
-    loginForm.classList.remove("active");
-    usernameInput.value = "";
-    passwordInput.value = "";
-}
-
-
-
 function load() {
     let input = document.getElementById("textInput");
     let theButton = document.getElementById("loginLink");
+    client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
 
     theButton.onclick = function () {
-    var thePrompt = window.open("", "", "height=200,width=500");
-    var theHTML = "";
+        let thePrompt = window.open("", "", "height=200,width=500");
+        let theHTML = "";
 
-    theHTML += "Username: <input type='text' id='theUser' placeholder='Enter Username...'/>";
-    theHTML += "<br />";
-    theHTML += "Password: <input type='password' id='thePass' placeholder='Enter Password...'/>";
-    theHTML += "<br />";
-    theHTML += "<input type='button' value='OK' id='authOK'/>";
-    thePrompt.document.body.innerHTML = theHTML;
+        theHTML += "Username: <input type='text' id='theUser' placeholder='Enter Username'/>";
+        theHTML += "<br />";
+        theHTML += "Password: <input type='password' id='thePass' placeholder='Enter Password'/>";
+        theHTML += "<br />";
+        theHTML += "<input type='button' value='Login' id='authOK'/>";
+        thePrompt.document.body.innerHTML = theHTML;
 
-    
+       // document.getElementById("thePass").addEventListener("keydown", function (event) {
+         //   if (event.keyCode === ENTER_KEY) {
+        //        submitPassword();
+        //    }
+       // });
 
-    thePrompt.document.getElementById("authOK").onclick = function () {
-        username = thePrompt.document.getElementById("theUser").value;
-        password = thePrompt.document.getElementById("thePass").value;
-        client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
-        credential = new stitch.UserPasswordCredential(username, password)
+        thePrompt.document.getElementById("authOK").onclick = function () {
+            submitPassword();
+        }
 
-        db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
+        function submitPassword() {
+            username = thePrompt.document.getElementById("theUser").value;
+            password = thePrompt.document.getElementById("thePass").value;
+            
+            credential = new stitch.UserPasswordCredential(username, password)
 
-        loadEvents();
-        thePrompt.close();
-    }
+            db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
+            
+            thePrompt.close();
+            loadEvents();
+        }
     }
 
     
@@ -228,6 +224,9 @@ function loadEvents() {
 
             loadDates();
         }).catch(err => {
+            events = [];
+            loadDates();
+
             console.error(err)
         });
 
@@ -329,18 +328,6 @@ function create(event) {
     
 }
 
-function promptForPassword() {
-    username = prompt("Please enter your username").toString();
-    password = prompt("Please enter your password").toString();
-
-    client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
-    credential = new stitch.UserPasswordCredential(username, password)
-
-    db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
-
-    loadEvents();
-}
-
 function clickedBox(event) {
 
     let eventForm = document.getElementById("event-form");
@@ -353,22 +340,6 @@ function clickedBox(event) {
 
     p.innerHTML = span.value.format('MMMM DD YYYY');
     eventForm.value = span.value;
-}
-
-function clickedLogin(event) {
-
-    let loginForm = document.getElementById("login-form");
-    loginForm.classList.remove("inactive");
-    loginForm.classList.add("active");
-    loginForm.style = "top: " + 500 + "; left: " + 500;
-    console.log(event.clientY + " " + event.clientX)
-    let p = loginForm.getElementsByTagName("p")[0];
-    let span = event.target.getElementsByTagName("span")[0];
-    document.getElementById("timeInput").select();
-
-    //p.innerHTML = span.value.format('MMMM DD YYYY');
-    //eventForm.value = span.value;
-
 }
 
 function closeBox() {
