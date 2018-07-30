@@ -35,11 +35,11 @@ function load() {
         theHTML += "<input type='button' value='Login' id='authOK'/>";
         thePrompt.document.body.innerHTML = theHTML;
 
-       // document.getElementById("thePass").addEventListener("keydown", function (event) {
-         //   if (event.keyCode === ENTER_KEY) {
-        //        submitPassword();
-        //    }
-       // });
+        thePrompt.document.getElementById("thePass").addEventListener("keydown", function (event) {
+           if (event.keyCode === ENTER_KEY) {
+               submitPassword();
+            }
+        });
 
         thePrompt.document.getElementById("authOK").onclick = function () {
             submitPassword();
