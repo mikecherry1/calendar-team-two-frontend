@@ -162,7 +162,7 @@ function deleteEvents() {
     if(credential == undefined) {
         return;
     }
-    
+
     events = [];
     client.auth.loginWithCredential(credential).then(() => db.collection('Events').deleteMany()).then(() => 
         loadEvents()
@@ -233,6 +233,11 @@ function myMap() {
 function loadEvents() {
     let loginButton = document.getElementById("loginLink");
     let logoutButton = document.getElementById("logoutLink");
+
+    if(credential == undefined) {
+        loadDates();
+        return;
+    }
 
     client.auth.loginWithCredential(credential).then(() => db.collection('Events').find({owner_id: client.auth.user.id}).asArray())
         .then(docs => {
