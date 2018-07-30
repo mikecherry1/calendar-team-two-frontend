@@ -1,17 +1,18 @@
+const ENTER_KEY = 13;
+
 let weeks = [];
 let month = moment().month() + 1; //months are zero-indexed
 let year = moment().year();
 let today = moment().date();
 let events = [];
-const ENTER_KEY = 13;
 let client;
 let db;
 let credential;
 let username = '';
 let password = '';
 
-var alarm = new Audio("http://soundbible.com/grab.php?id=2197&type=mp3");
-var input = document.getElementById("textInput");
+let alarm = new Audio("http://soundbible.com/grab.php?id=2197&type=mp3");
+let input = document.getElementById("textInput");
 
 window.addEventListener('load', load, false);
 $(document).ready(function(){
@@ -19,13 +20,26 @@ $(document).ready(function(){
     $('option').formSelect();
 });
 
+function tryLoginFromLocalStorage() {
+    client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
+
+    username = localStorage.getItem("username-calendar");
+    password = localStorage.getItem("password-calendar");
+
+    if(username != '' && password != '') {
+        credential = new stitch.UserPasswordCredential(username, password);
+        db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
+
+        loadEvents();
+    }
+
+}
 function load() {
     let input = document.getElementById("textInput");
     let loginButton = document.getElementById("loginLink");
     let logoutButton = document.getElementById("logoutLink");
-    //logoutButton.style.visibility = "hidden";
 
-    client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
+    tryLoginFromLocalStorage();
 
     logoutButton.onclick = function () {
         logoutButton.style.visibility = "hidden";
@@ -36,6 +50,9 @@ function load() {
         credential = undefined;
         db = undefined;
         events = [];
+        localStorage.setItem("username-calendar", '');
+        localStorage.setItem("password-calendar", '');
+
         loadDates();
     }
 
@@ -64,7 +81,9 @@ function load() {
             username = thePrompt.document.getElementById("theUser").value;
             password = thePrompt.document.getElementById("thePass").value;
             
-            credential = new stitch.UserPasswordCredential(username, password)
+            credential = new stitch.UserPasswordCredential(username, password);
+            localStorage.setItem("username-calendar", username);
+            localStorage.setItem("password-calendar", password);
 
             db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
             
@@ -72,7 +91,6 @@ function load() {
             loadEvents();
         }
     }
-
 
     input.addEventListener("keydown", function (event) {
         if (event.keyCode === ENTER_KEY) {
