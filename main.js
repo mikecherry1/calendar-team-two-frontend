@@ -114,6 +114,7 @@ function load() {
             var ct = this.padfield(dateobj.getHours()) + ":" + this.padfield(dateobj.getMinutes()) + ":" + this.padfield(dateobj.getSeconds())
             this.ctref.innerHTML = ct
             this.ctref.setAttribute("title", ct)
+            
             if (typeof this.hourwake != "undefined") { //if alarm is set
                 if (this.ctref.title == (this.hourwake + ":" + this.minutewake + ":" + this.secondwake)) {
                     clearInterval(jsalarm.timer)
@@ -129,12 +130,14 @@ function load() {
             let validAlarmTimes = [];
 
             for(let e of alarmTimes) {
-                let alarmHour = moment(e, ["h:mm A"]).format("HH");
+                let alarmHour = moment(e, ["h:mm A"]).format("H");
                 let alarmMinutes = moment(e, ["h:mm A"]).format("m");
 
-                if(alarmHour >= currentTime.format("H")
-                   && alarmMinutes >= currentTime.format("m")) {
-                       validAlarmTimes.push(e);
+                if(alarmHour > currentTime.format("H")) {
+                   validAlarmTimes.push(e);
+                } else if(alarmHour == currentTime.format("H")
+                    && alarmMinutes > currentTime.format("m")) {
+                    validAlarmTimes.push(e); 
                 }
             }
 
@@ -236,6 +239,7 @@ function deleteEvents() {
     }
 
     events = [];
+    alarmTimes = [];
     client.auth.loginWithCredential(credential).then(() => db.collection('Events').deleteMany()).then(() => 
         loadEvents()
     );
