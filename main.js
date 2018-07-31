@@ -131,16 +131,15 @@ function load() {
 
             for(let e of alarmTimes) {
                 if(!moment(e, ["h:mm A"]).isValid()) {
-                    //console.log(e);
                     continue;
                 }
                 let alarmHour = moment(e, ["h:mm A"]).format("H");
                 let alarmMinutes = moment(e, ["h:mm A"]).format("m");
 
                 if(alarmHour > currentTime.format("H")) {
-                   validAlarmTimes.push(e);
+                    validAlarmTimes.push(e);
                 } else if(alarmHour == currentTime.format("H")
-                    && alarmMinutes > currentTime.format("m")) {
+                    && parseInt(alarmMinutes) > parseInt(currentTime.format("m"))) {
                     validAlarmTimes.push(e); 
                 }
             }
@@ -158,7 +157,11 @@ function load() {
                     minHour = alarmHour;
                     minMinutes = minMinutes;
                 } else {
-                    if(alarmHour < minHour && alarmMinutes < minMinutes) {
+                    if(alarmHour < minHour) {
+                        minElement = validAlarmTimes[i];
+                        minHour = alarmHour;
+                        minMinutes = minMinutes;
+                    } else if(alarmHour == minHour && alarmMinutes < minMinutes) {
                         minElement = validAlarmTimes[i];
                         minHour = alarmHour;
                         minMinutes = minMinutes;
