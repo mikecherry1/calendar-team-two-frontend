@@ -440,6 +440,11 @@ function clickedBox(event) {
     //eventForm.style = "top: " + event.clientY + "; left: " + event.clientX;
     let p = eventForm.getElementsByTagName("p")[0];
     let span = event.target.getElementsByTagName("span")[0];
+
+    if(span == undefined) {
+        span = event.target;
+    }
+    
     document.getElementById("timeInput").select();
 
     p.innerHTML = span.value.format('MMMM DD YYYY');
