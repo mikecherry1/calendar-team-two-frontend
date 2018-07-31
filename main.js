@@ -398,12 +398,12 @@ function loadDates() {
 
 function create(event) {
     let textInput = document.getElementById("textInput");
-    let timeInput = document.getElementById("timeInput");
+    let timeInput = document.getElementById("apptTime");
     let eventForm = document.getElementById("event-form");
     
     if (textInput.value.length > 0) {
         let textValue = textInput.value;
-        let timeValue = timeInput.value;
+        let timeValue = apptTime.value;
 
         if(credential == undefined) {
             resetForm();
@@ -445,7 +445,7 @@ function clickedBox(event) {
         span = event.target;
     }
     
-    document.getElementById("timeInput").select();
+    document.getElementById("apptTime").select();
 
     p.innerHTML = span.value.format('MMMM DD YYYY');
     eventForm.value = span.value;
