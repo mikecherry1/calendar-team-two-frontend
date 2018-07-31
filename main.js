@@ -38,6 +38,24 @@ function tryLoginFromLocalStorage() {
 
 }
 function load() {
+    moment.modifyHolidays.add({
+        "Appiah's Birthday": {
+          date: '10/06',
+        },
+        "John's Birthday": {
+          date: '10/09',
+        },
+        "Olga's Birthday": {
+            date: '08/28',
+        },
+        "Webster's Birthday": {
+            date: '08/03',
+        },
+        "Linda's Birthday": {
+            date: '05/29',
+        }
+    });
+
     let input = document.getElementById("textInput");
     let loginButton = document.getElementById("loginLink");
     let logoutButton = document.getElementById("logoutLink");
@@ -268,51 +286,6 @@ function myMap() {
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
 
-//https://gist.github.com/jrhames/5200024
-(function () {
-    var moment;
-
-    moment = typeof require !== "undefined" && require !== null ? require("moment") : this.moment;
-
-    //Holiday definitions
-    var _holidays = {
-        'M': { //Month, Day
-            '01/01': "New Year's Day",
-            '07/04': "Independence Day",
-            '11/11': "Veteran's Day",
-            '12/24': "Christmas Eve",
-            '12/25': "Christmas Day",
-            '12/31': "New Year's Eve",
-            '10/06': "Appiah's Birthday",
-            '10/09': "John's Birthday",
-            '08/28': "Olga's Birthday",
-            '08/03': "Webster's Birthday",
-            '05/29': "Linda's Birthday"
-        },
-        'W': { //Month, Week of Month, Day of Week
-            '1/3/1': "Martin Luther King Jr. Day",
-            '2/3/1': "Washington's Birthday",
-            '5/5/1': "Memorial Day",
-            '9/1/1': "Labor Day",
-            '10/2/1': "Columbus Day",
-            '11/4/4': "Thanksgiving Day",
-            '6/3/0': "Father's Day",
-            "5/2/0": "Mother's Day"
-        }
-    };
-
-    moment.fn.holiday = function () {
-        var diff = 1 + (0 | (this._d.getDate() - 1) / 7),
-            memorial = (this._d.getDay() === 1 && (this._d.getDate() + 7) > 30) ? "5" : null;
-
-        return (_holidays['M'][this.format('MM/DD')] || _holidays['W'][this.format('M/' + (memorial || diff) + '/d')]);
-    };
-
-    if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
-        module.exports = moment;
-    }
-}(this));
-
 function loadEvents() {
     let loginButton = document.getElementById("loginLink");
     let logoutButton = document.getElementById("logoutLink");
@@ -382,8 +355,8 @@ function loadDates() {
                 span.innerHTML = "Today <br />";
             }
 
-            if (moment(weeks[i][j]).holiday() != undefined) {
-                span.innerHTML = moment(weeks[i][j]).holiday() + "<br />";
+            if (moment(weeks[i][j]).isHoliday()) {
+                span.innerHTML = moment(weeks[i][j]).isHoliday() + "<br />";
             }
 
             li.innerHTML = weeks[i][j].format('D') + "<br />"; //example: innerHTML = 31
@@ -411,7 +384,7 @@ function loadDates() {
                 li.setAttribute("style", "color: grey; font-style: italic;");
             }
 
-            if (moment(weeks[i][j]).holiday() != undefined) {
+            if (moment(weeks[i][j]).isHoliday()) {
                 li.style.backgroundColor = "lightblue";
             }
 
@@ -462,7 +435,9 @@ function clickedBox(event) {
     let eventForm = document.getElementById("event-form");
     eventForm.classList.remove("inactive");
     eventForm.classList.add("active");
-    eventForm.style = "top: " + event.clientY + "; left: " + event.clientX;
+    eventForm.style = "top: 75%; left: 50%";
+
+    //eventForm.style = "top: " + event.clientY + "; left: " + event.clientX;
     let p = eventForm.getElementsByTagName("p")[0];
     let span = event.target.getElementsByTagName("span")[0];
     document.getElementById("timeInput").select();
