@@ -131,7 +131,7 @@ function load() {
 
             for(let e of alarmTimes) {
                 if(!moment(e, ["h:mm A"]).isValid()) {
-                    console.log(e);
+                    //console.log(e);
                     continue;
                 }
                 let alarmHour = moment(e, ["h:mm A"]).format("H");
