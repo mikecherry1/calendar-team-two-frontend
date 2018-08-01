@@ -3,6 +3,10 @@
     font-family: Roboto, Helvetica, sans-serif;
 }
 
+.nav-wrapper {
+    background-color: gray !important;
+}
+
 #logoutLink {
     visibility: hidden;
 }
