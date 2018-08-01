@@ -431,6 +431,12 @@ function loadEvents() {
                 events.push(doc.event);
             }
 
+            events.sort(function(a, b) {
+                return moment.duration(a.time).asSeconds() - moment.duration(b.time).asSeconds();
+            });
+
+            console.log(events)
+
             loadDates();
             
             loginButton.style.visibility = "hidden";
