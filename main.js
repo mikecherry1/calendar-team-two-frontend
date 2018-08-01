@@ -303,6 +303,7 @@ function loadEventsToEdit(momentDay = undefined) {
     let div = editForm.getElementsByTagName("div")[0]
 
     div.innerHTML = "";
+    div.className = "text";
     
     if(momentDay == undefined) {
         momentDay = moment(p.innerHTML);
@@ -315,8 +316,23 @@ function loadEventsToEdit(momentDay = undefined) {
         return;
     }
 
-    for (let i = 0; i < events.length; i++) {
+    //if no events are on the current date don't show the edit box
+    foundEventsForDate = false;
+
+    for(let i = 0; i < events.length; i++) {
         if (momentDay.format("MMMM DD YYYY") == moment(events[i].date).format("MMMM DD YYYY")) {
+            foundEventsForDate = true;
+            break;
+        }
+    }
+
+    if(!foundEventsForDate) {
+        closeEditBox();
+        return;
+    }
+
+    for(let i = 0; i < events.length; i++) {
+        if(momentDay.format("MMMM DD YYYY") == moment(events[i].date).format("MMMM DD YYYY")) {
             let buttonDiv = document.createElement("div");
             let label0 = document.createElement("span");
             let textInput0 = document.createElement("input");
@@ -327,8 +343,13 @@ function loadEventsToEdit(momentDay = undefined) {
             let updateButton = document.createElement("button");
             let deleteButton = document.createElement("button");
 
-            label0.innerHTML = "Time";
-            label1.innerHTML = "Description";
+            buttonDiv.className = "buttons";
+
+            buttonDiv.appendChild(updateButton);
+            buttonDiv.appendChild(deleteButton);
+
+            label0.innerHTML = "Time:";
+            label1.innerHTML = "Description:";
 
             updateButton.innerHTML = "Update";
             deleteButton.innerHTML = "Delete";
@@ -354,9 +375,7 @@ function loadEventsToEdit(momentDay = undefined) {
             div.appendChild(textInput0);
             div.appendChild(label1);
             div.appendChild(textInput1);
-            div.appendChild(updateButton);
-            div.appendChild(deleteButton);
-            div.appendChild(document.createElement("br"));
+            div.appendChild(buttonDiv);
         }
     }
 }
@@ -397,7 +416,6 @@ function updateEvent(newEvent, replacedEvent) {
     events = [];
     alarmTimes = [];
     
-
     client.auth.loginWithCredential(credential).then(() => db.collection('Events').deleteOne({"event": replacedEvent})).catch(err => {
         console.error(err)
     })
@@ -421,7 +439,7 @@ function updateEvent(newEvent, replacedEvent) {
             loadDates();
 
             console.error(err)
-        })//.then(() => loadEventsToEdit(momentDay));
+        })
 }
 
 function sortEvents(events) {
@@ -448,11 +466,6 @@ function loadEvents() {
             }
 
             sortEvents(events);
-
-            //events.sort(function(a, b) {
-            //    return moment.duration(a.time).asSeconds() - moment.duration(b.time).asSeconds();
-            //});
-
             loadDates();
             
             loginButton.style.visibility = "hidden";

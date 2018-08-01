@@ -182,7 +182,7 @@
 #edit-form .buttons button {
     padding: 0.5rem;
     background-color: blue;
-    border: 79px solid gray;
+    border: 1px solid gray;
     font-weight: bold;
     border-radius: 2px;
     color: white;
