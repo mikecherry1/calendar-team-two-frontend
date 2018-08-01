@@ -302,7 +302,7 @@ function loadEventsToEdit(momentDay = undefined) {
         momentDay = moment(p.innerHTML);
     }
 
-    resetForm(eventForm);
+    resetForm();
 
     if(events.length == 0) {
         closeEditBox();
@@ -538,7 +538,7 @@ function create(event) {
         let timeValue = timeInput.value;
 
         if(credential == undefined) {
-            resetForm(eventForm);
+            resetForm();
             return;
         }
 
@@ -546,7 +546,7 @@ function create(event) {
             db.collection('Events').insertOne({owner_id: client.auth.user.id, event: {date: eventForm.value.format("MMMM DD YYYY"), 
             time: timeValue, note: textValue}}).then(() => {
                 loadEvents();
-                resetForm(eventForm);
+                resetForm();
             }).catch(err => {
                 console.error(err)
             }));
@@ -577,15 +577,21 @@ function clickedBox(event) {
     eventForm.value = span.value;
 }
 
-function resetForm(eventForm) {
-    eventForm.classList.add("inactive");
+function resetForm() {
+    let eventForm = document.getElementById("event-form");
+
+    let apptTime = eventForm.getElementsByTagName("input")[0];
+    let textInput = eventForm.getElementsByTagName("input")[1];
+
+    apptTime.value = "";
+    textInput.value = "";
+
     eventForm.classList.remove("active");
+    eventForm.classList.add("inactive");
 }
 
 function closeBox() {
-    let eventForm = document.getElementById("event-form");
-    eventForm.classList.remove("active");
-    eventForm.classList.add("inactive");
+    resetForm();
 }
 
 function closeEditBox() {
