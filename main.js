@@ -292,7 +292,6 @@ function loadEventsToEdit(momentDay = undefined) {
 
     editForm.classList.remove("inactive");
     editForm.classList.add("active");
-    editForm.style = "top: 75%; left: 50%";
 
     let p = eventForm.getElementsByTagName("p")[0];
     let div = editForm.getElementsByTagName("div")[0]
@@ -312,6 +311,7 @@ function loadEventsToEdit(momentDay = undefined) {
 
     for (let i = 0; i < events.length; i++) {
         if (momentDay.format("MMMM DD YYYY") == moment(events[i].date).format("MMMM DD YYYY")) {
+            let buttonDiv = document.createElement("div");
             let label0 = document.createElement("span");
             let textInput0 = document.createElement("input");
 
@@ -434,8 +434,6 @@ function loadEvents() {
             events.sort(function(a, b) {
                 return moment.duration(a.time).asSeconds() - moment.duration(b.time).asSeconds();
             });
-
-            console.log(events)
 
             loadDates();
             
