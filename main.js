@@ -137,8 +137,14 @@ function load() {
                 if (this.ctref.title == (this.hourwake + ":" + this.minutewake + ":" + this.secondwake)) {
                     clearInterval(jsalarm.timer)
 
-                    alarm.play()
-                    alert("Check Your Calendar")
+                    alarm.play();
+
+                    setTimeout(function() {
+                        let confirmation = confirm('Check Your Calendar');
+                        if(confirmation === true) {
+                            document.getElementById("resetbutton").click();
+                        }
+                    }, 300);
                 }
             }
         },
