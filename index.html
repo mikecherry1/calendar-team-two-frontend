@@ -83,8 +83,17 @@
         </div>
         <div class="buttons">
             <button onclick="create()"> Create</button>
+			<button onclick="loadEventsToEdit()"> Edit</button>
         </div>
         <button id="close-button" onclick="closeBox()">&#10005</button>
+    </div>
+	
+	<div id="edit-form" class="inactive" style="top: 500; left: 500;">
+        <h4>Edit an event</h4>
+        <p></p>
+        <div>
+        </div>
+        <button id="close-button" onclick="closeEditBox()">&#10005</button>
     </div>
 
     <!--Calendar reset button-->

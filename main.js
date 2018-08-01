@@ -286,6 +286,134 @@ function myMap() {
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
 
+function loadEventsToEdit(momentDay = undefined) {
+    let eventForm = document.getElementById("event-form");
+    let editForm = document.getElementById("edit-form");
+
+    editForm.classList.remove("inactive");
+    editForm.classList.add("active");
+    editForm.style = "top: 75%; left: 50%";
+
+    let p = eventForm.getElementsByTagName("p")[0];
+    let div = editForm.getElementsByTagName("div")[0]
+
+    div.innerHTML = "";
+    
+    if(momentDay == undefined) {
+        momentDay = moment(p.innerHTML);
+    }
+
+    resetForm(eventForm);
+
+    if(events.length == 0) {
+        closeEditBox();
+        return;
+    }
+
+    for (let i = 0; i < events.length; i++) {
+        if (momentDay.format("MMMM DD YYYY") == moment(events[i].date).format("MMMM DD YYYY")) {
+            let label0 = document.createElement("span");
+            let textInput0 = document.createElement("input");
+
+            let label1 = document.createElement("span");
+            let textInput1 = document.createElement("input");
+
+            let updateButton = document.createElement("button");
+            let deleteButton = document.createElement("button");
+
+            label0.innerHTML = "Time";
+            label1.innerHTML = "Description";
+
+            updateButton.innerHTML = "Update";
+            deleteButton.innerHTML = "Delete";
+
+            textInput0.value = events[i].time;
+            textInput1.value = events[i].note;
+
+            textInput0.id = "textInput" + i + "" + 0;
+            textInput1.id = "textInput" + i + "" + 1;
+
+            updateButton.id = "updateButton" + i;
+            deleteButton.id = "deleteButton" + i;
+
+            updateButton.onclick = function() {
+                updateEvent({date: events[i].date, time: textInput0.value, note: textInput1.value}, events[i]);
+            }
+
+            deleteButton.onclick = function() {
+                deleteEvent(events[i], momentDay);
+            }
+
+            div.appendChild(label0);
+            div.appendChild(textInput0);
+            div.appendChild(label1);
+            div.appendChild(textInput1);
+            div.appendChild(updateButton);
+            div.appendChild(deleteButton);
+            div.appendChild(document.createElement("br"));
+        }
+    }
+}
+
+function deleteEvent(event, momentDay) {
+    if(credential == undefined) {
+        return;
+    }
+
+    events = [];
+    alarmTimes = [];
+    client.auth.loginWithCredential(credential).then(() => db.collection('Events').deleteOne({"event": event})).then(() => 
+        db.collection('Events').find({owner_id: client.auth.user.id}).asArray())
+        .then(docs => {
+            events = [];
+
+            for(let doc of docs) {
+                events.push(doc.event);
+            }
+
+            loadDates();
+
+        }).catch(err => {
+            events = [];
+            loadDates();
+
+            console.error(err)
+        }).then(() => loadEventsToEdit(momentDay));
+}
+
+function updateEvent(newEvent, replacedEvent) {
+    if(credential == undefined) {
+        return;
+    }
+
+    events = [];
+    alarmTimes = [];
+    
+
+    client.auth.loginWithCredential(credential).then(() => db.collection('Events').deleteOne({"event": replacedEvent})).catch(err => {
+        console.error(err)
+    })
+
+    client.auth.loginWithCredential(credential).then(() => db.collection('Events').insertOne({owner_id: client.auth.user.id, 
+        event: {date: newEvent.date, time: newEvent.time, note: newEvent.note}})).then(() => 
+        db.collection('Events').find({owner_id: client.auth.user.id}).asArray())
+        .then(docs => {
+            events = [];
+
+            for(let doc of docs) {
+                events.push(doc.event);
+            }
+
+            loadDates();
+
+        }).catch(err => {
+            events = [];
+            loadDates();
+
+            console.error(err)
+        })//.then(() => loadEventsToEdit(momentDay));
+}
+
 function loadEvents() {
     let loginButton = document.getElementById("loginLink");
     let logoutButton = document.getElementById("logoutLink");
@@ -403,36 +531,32 @@ function create(event) {
     
     if (textInput.value.length > 0) {
         let textValue = textInput.value;
-        let timeValue = apptTime.value;
+        let timeValue = timeInput.value;
 
         if(credential == undefined) {
-            resetForm();
+            resetForm(eventForm);
             return;
         }
-
-        //console.log(eventForm.value.format("MMMM DD YYYY"));
 
         client.auth.loginWithCredential(credential).then(() =>
             db.collection('Events').insertOne({owner_id: client.auth.user.id, event: {date: eventForm.value.format("MMMM DD YYYY"), 
             time: timeValue, note: textValue}}).then(() => {
                 loadEvents();
-                resetForm();
+                resetForm(eventForm);
             }).catch(err => {
                 console.error(err)
             }));
-    }
-
-    function resetForm() {
-        eventForm.classList.add("inactive");
-        eventForm.classList.remove("active");
-        textInput.value = "";
-        timeInput.value = "";
     }
     
 }
 
 function clickedBox(event) {
     let eventForm = document.getElementById("event-form");
+    let editForm = document.getElementById("edit-form");
+
+    editForm.classList.remove("active");
+    editForm.classList.add("inactive");
+
     eventForm.classList.remove("inactive");
     eventForm.classList.add("active");
     eventForm.style = "top: 75%; left: 50%";
@@ -440,21 +564,30 @@ function clickedBox(event) {
     //eventForm.style = "top: " + event.clientY + "; left: " + event.clientX;
     let p = eventForm.getElementsByTagName("p")[0];
     let span = event.target.getElementsByTagName("span")[0];
-
     if(span == undefined) {
         span = event.target;
     }
-    
     document.getElementById("apptTime").select();
 
     p.innerHTML = span.value.format('MMMM DD YYYY');
     eventForm.value = span.value;
 }
 
+function resetForm(eventForm) {
+    eventForm.classList.add("inactive");
+    eventForm.classList.remove("active");
+}
+
 function closeBox() {
     let eventForm = document.getElementById("event-form");
     eventForm.classList.remove("active");
     eventForm.classList.add("inactive");
+}
+
+function closeEditBox() {
+    let editForm = document.getElementById("edit-form");
+    editForm.classList.remove("active");
+    editForm.classList.add("inactive");
 }
 
 //adapted from https://github.com/vuejsdevelopers/vuejs-calendar
