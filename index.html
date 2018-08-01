@@ -23,13 +23,24 @@
 
 <body onload="loadDates()">
     <div style="background-color:rgb(255, 255, 255)" class="header">
-        <h1 class="center-align">ITTP Team Two Calendar</h1>
-        <div>
-            <iframe style="display:block;" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=small&timezone=America%2FNew_York" height="90" frameborder="0"></iframe>
-        </div>
-        <a class="waves-effect waves-purple blue-grey darken-2 btn" id="loginLink">Login</a>
-        <a class="waves-effect waves-purple blue-grey darken-2 btn" id="logoutLink">Logout</a>
-
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo center">ITTP Team Two Calendar</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="weather.html"><i class="material-icons">cloud</i></a></li>
+                    <!--<li><a href="weather.html">Weather</a></li>-->
+                    <li><a href="badges.html"><i class="material-icons">map</i></a></li>
+                    <!--<li><a href="collapsible.html">JavaScript</a></li>-->
+                </ul>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li> <a class="waves-effect waves-purple blue-grey darken-2 btn" id="loginLink">Login</a>
+                        <a class="waves-effect waves-purple blue-grey darken-2 btn" id="logoutLink">Logout</a>
+                     </li>
+                </ul>
+            </div>
+        </nav>
+         <!--<div>                        <iframe style="display:block;" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=small&timezone=America%2FNew_York" height="90" frameborder="0"></iframe>
+         </div>-->
     </div>
 
     <!--Cycle buttons for changing years and months-->
@@ -129,24 +140,7 @@
             <input type="button" value="Reset" id="resetbutton" style="background-color:red; color:white" title="15 Sec alarm" />
         </div>
     </form>
-    <div class="container">
-        <div class="row">
-            <div class="col m4 pull-m1 left">
-                <div class="mapouter" id="map">
-                    <div class="gmap_canvas">
-                        <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=furnace rd,alexandria&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                    </div>
-                </div>
-            </div>
-            <div class="col m5 right">
-                <img alt="" src="http://radar.weather.gov/Conus/Loop/NatLoop_Small.gif">
-            </div>
-
-        </div>
-
-    </div>
-
-    
+ 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 </body>
 

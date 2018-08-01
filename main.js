@@ -18,7 +18,7 @@ let input = document.getElementById("textInput");
 let jsalarm = {};
 
 window.addEventListener('load', load, false);
-$(document).ready(function(){
+$(document).ready(function() {
     $('select').formSelect();
     $('option').formSelect();
 });
@@ -371,6 +371,8 @@ function deleteEvent(event, momentDay) {
                 events.push(doc.event);
             }
 
+            sortEvents(events);
+
             loadDates();
 
         }).catch(err => {
@@ -404,6 +406,8 @@ function updateEvent(newEvent, replacedEvent) {
                 events.push(doc.event);
             }
 
+            sortEvents(events);
+
             loadDates();
 
         }).catch(err => {
@@ -412,6 +416,12 @@ function updateEvent(newEvent, replacedEvent) {
 
             console.error(err)
         })//.then(() => loadEventsToEdit(momentDay));
+}
+
+function sortEvents(events) {
+    events.sort(function(a, b) {
+        return moment.duration(a.time).asSeconds() - moment.duration(b.time).asSeconds();
+    });
 }
 
 function loadEvents() {
@@ -431,9 +441,11 @@ function loadEvents() {
                 events.push(doc.event);
             }
 
-            events.sort(function(a, b) {
-                return moment.duration(a.time).asSeconds() - moment.duration(b.time).asSeconds();
-            });
+            sortEvents(events);
+
+            //events.sort(function(a, b) {
+            //    return moment.duration(a.time).asSeconds() - moment.duration(b.time).asSeconds();
+            //});
 
             loadDates();
             
