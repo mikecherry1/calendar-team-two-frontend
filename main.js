@@ -152,7 +152,7 @@ function load() {
                         if(confirmation === true) {
                             document.getElementById("resetbutton").click();
                         }
-                    }, 500)
+                    }, 1000)
                 }
             }
         },
@@ -314,7 +314,7 @@ function loadEventsToEdit(momentDay = undefined) {
     div.className = "text";
     
     if(momentDay == undefined) {
-        momentDay = moment(p.innerHTML);
+        momentDay = p.innerHTML;
     }
 
     resetForm();
@@ -328,7 +328,7 @@ function loadEventsToEdit(momentDay = undefined) {
     foundEventsForDate = false;
 
     for(let i = 0; i < events.length; i++) {
-        if (momentDay.format("MMMM DD YYYY") == moment(events[i].date).format("MMMM DD YYYY")) {
+        if (momentDay == events[i].date) {
             foundEventsForDate = true;
             break;
         }
@@ -340,7 +340,7 @@ function loadEventsToEdit(momentDay = undefined) {
     }
 
     for(let i = 0; i < events.length; i++) {
-        if(momentDay.format("MMMM DD YYYY") == moment(events[i].date).format("MMMM DD YYYY")) {
+        if(momentDay == events[i].date) {
             let buttonDiv = document.createElement("div");
             let label0 = document.createElement("span");
             let textInput0 = document.createElement("input");
@@ -518,10 +518,12 @@ function loadDates() {
             let li = document.createElement("li");
             let span = document.createElement("span");
 
-            //makes a date string like 2018-6-15
-            let todaysDate = "" + moment().year() + "-" + (moment().month() + 1) + "-" + moment().date();
+            let todaysDate = moment();
 
-            if (weeks[i][j].unix() == moment(todaysDate, "YYYY-MM-DD").unix()) {
+            //makes a date string like 2018-6-15 with no time information
+            let todaysUnixDate = "" + moment().year() + "-" + (moment().month() + 1) + "-" + moment().date();
+
+            if (weeks[i][j].unix() == moment(todaysUnixDate, "YYYY-MM-DD").unix()) {
                 li.style.backgroundColor = "lightgreen";
                 span.innerHTML = "Today <br />";
             }
@@ -534,12 +536,13 @@ function loadDates() {
             span.value = weeks[i][j];
             span.style = "font-size: small";
 
-
             //adds the events to the date
             for (let i = 0; i < events.length; i++) {
-                if (span.value.format("MMMM DD YYYY") == moment(events[i].date).format("MMMM DD YYYY")) {
+                if (span.value.format("MMMM DD YYYY") == events[i].date) {
+                    console.log(span.value.format("MMMM DD YYYY") + ' ' + events[i].date);
+
                     //getting the times for the alarm
-                    if (events[i].date == moment(todaysDate).format("MMMM DD YYYY")) {
+                    if (events[i].date == todaysDate.format("MMMM DD YYYY")) {
                         if(!alarmTimes.includes(events[i].time)) {
                             alarmTimes.push(events[i].time);
                         }
