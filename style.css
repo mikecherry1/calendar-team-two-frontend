@@ -22,8 +22,8 @@
 }
 
 .blink {
-    animation: blink-animation 0.25s steps(5, start) infinite;
-    -webkit-animation: blink-animation 0.25s steps(5, start) infinite;
+    animation: blink-animation 0.166s steps(5, start) infinite;
+    -webkit-animation: blink-animation 0.166s steps(5, start) infinite;
 }
 @keyframes blink-animation {
     to {

@@ -539,7 +539,6 @@ function loadDates() {
             //adds the events to the date
             for (let i = 0; i < events.length; i++) {
                 if (span.value.format("MMMM DD YYYY") == events[i].date) {
-                    console.log(span.value.format("MMMM DD YYYY") + ' ' + events[i].date);
 
                     //getting the times for the alarm
                     if (events[i].date == todaysDate.format("MMMM DD YYYY")) {
