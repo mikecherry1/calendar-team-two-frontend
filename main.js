@@ -17,6 +17,7 @@ let input = document.getElementById("textInput");
 
 let jsalarm = {};
 
+
 window.addEventListener('load', load, false);
 $(document).ready(function() {
     $('select').formSelect();
@@ -139,12 +140,19 @@ function load() {
 
                     alarm.play();
 
+                    document.getElementById("monthBar").classList.add("blink");
+                    document.getElementsByClassName("days")[0].classList.add("blink");
+
+
                     setTimeout(function() {
+                        document.getElementById("monthBar").classList.remove("blink");
+                        document.getElementsByClassName("days")[0].classList.remove("blink");
+
                         let confirmation = confirm('Check Your Calendar');
                         if(confirmation === true) {
                             document.getElementById("resetbutton").click();
                         }
-                    }, 300);
+                    }, 500)
                 }
             }
         },
