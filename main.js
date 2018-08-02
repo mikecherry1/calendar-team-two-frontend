@@ -152,7 +152,7 @@ function load() {
                         if(confirmation === true) {
                             document.getElementById("resetbutton").click();
                         }
-                    }, 1000)
+                    }, 10000)
                 }
             }
         },
