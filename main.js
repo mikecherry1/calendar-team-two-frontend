@@ -556,9 +556,8 @@ function Calendar() {
                                 alarmTimes.push(this.events[i].time);
                             }
                         }
-
                         span.id = i;
-                        span.innerHTML = span.innerHTML + this.events[i].time + ": " + this.events[i].note + "<br />";
+                        span.innerHTML = span.innerHTML + moment(this.events[i].time, 'HH:mm').format('h:mm a') + ": " + this.events[i].note + "<br />";
                     }
                 }
 
