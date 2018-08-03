@@ -41,7 +41,7 @@ function load() {
     });
 
     calendar = new Calendar();
-    calendar.tryToLoginFromLocalStorage();
+    tryToLoginFromLocalStorage();
 
     jsalarm.init();
 }
@@ -101,6 +101,20 @@ function logout() {
     localStorage.setItem("password-calendar", '');
 
     calendar.loadDates();
+}
+
+function tryToLoginFromLocalStorage() {
+    client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
+
+    username = localStorage.getItem("username-calendar");
+    password = localStorage.getItem("password-calendar");
+
+    if (username != '' && password != '') {
+        credential = new stitch.UserPasswordCredential(username, password);
+        db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
+
+        calendar.loadEvents();
+    }
 }
 
 function myMap() {
@@ -269,26 +283,11 @@ function Calendar() {
 
     this.input = document.getElementById("textInput");
 
-    this.tryToLoginFromLocalStorage = function () {
-        client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
-
-        username = localStorage.getItem("username-calendar");
-        password = localStorage.getItem("password-calendar");
-
-        if (username != '' && password != '') {
-            credential = new stitch.UserPasswordCredential(username, password);
-            db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('Calendar');
-
-            this.loadEvents();
-        }
-    }
-
     this.input.addEventListener("keydown", function (event) {
         if (event.keyCode === ENTER_KEY) {
             calendar.create();
         }
     });
-
 
     this.deleteEvents = function () {
         if (credential == undefined) {
