@@ -47,6 +47,7 @@ function load() {
 }
 
 function login() {
+    //adapted from https://stackoverflow.com/questions/29403655/javascript-or-jquery-password-prompt?noredirect=1&lq=1
     let thePrompt = window.open("", "", "height=150,width=300");
     let theHTML = "";
 
@@ -93,7 +94,9 @@ function logout() {
     password = '';
     credential = undefined;
     db = undefined;
+
     calendar.events = [];
+    
     localStorage.setItem("username-calendar", '');
     localStorage.setItem("password-calendar", '');
 
@@ -108,7 +111,7 @@ function myMap() {
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
 
-//http://www.javascriptkit.com/script/script2/alarm.shtml
+//adapted and extended from http://www.javascriptkit.com/script/script2/alarm.shtml
 let jsalarm = {
     padfield: function (f) {
         return (f < 10) ? "0" + f : f
