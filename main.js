@@ -133,8 +133,6 @@ let jsalarm = {
     showcurrenttime: function () {
         var dateobj = new Date()
 
-        this.findClosestTime();
-
         var ct = this.padfield(dateobj.getHours()) + ":" + this.padfield(dateobj.getMinutes()) + ":" + this.padfield(dateobj.getSeconds())
         this.ctref.innerHTML = ct
         this.ctref.setAttribute("title", ct)
@@ -160,6 +158,7 @@ let jsalarm = {
                 }, 10000)
             }
         }
+        this.findClosestTime();
     },
     findClosestTime: function () {
         let currentTime = moment();
