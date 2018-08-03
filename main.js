@@ -192,20 +192,21 @@ let jsalarm = {
             if (i === 0) {
                 minElement = validAlarmTimes[i];
                 minHour = alarmHour;
-                minMinutes = minMinutes;
+                minMinutes = alarmMinutes;
             } else {
                 if (alarmHour < minHour) {
                     minElement = validAlarmTimes[i];
                     minHour = alarmHour;
-                    minMinutes = minMinutes;
+                    minMinutes = alarmMinutes;
                 } else if (alarmHour == minHour && alarmMinutes < minMinutes) {
                     minElement = validAlarmTimes[i];
                     minHour = alarmHour;
-                    minMinutes = minMinutes;
+                    minMinutes = alarmMinutes;
                 }
             }
         }
 
+        console.log(minElement);
         if (minElement != undefined) {
             this.setEventAlarm(minElement);
         }
