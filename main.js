@@ -206,7 +206,6 @@ let jsalarm = {
             }
         }
 
-        console.log(minElement);
         if (minElement != undefined) {
             this.setEventAlarm(minElement);
         }
