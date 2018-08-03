@@ -17,7 +17,7 @@
     
 </head>
 
-<body onload="loadDates()">
+<body onload="calendar.loadDates()">
     <div style="background-color:rgb(255, 255, 255)" class="header">
         <nav>
             <div class="nav-wrapper">
@@ -29,8 +29,8 @@
                     <!--<li><a href="collapsible.html">JavaScript</a></li>-->
                 </ul>
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
-                    <li> <a class="waves-effect waves-purple blue-grey darken-2 btn" id="loginLink">Login</a>
-                        <a class="waves-effect waves-purple blue-grey darken-2 btn" id="logoutLink">Logout</a>
+                    <li> <a class="waves-effect waves-purple blue-grey darken-2 btn" onclick="login()" id="loginLink">Login</a>
+                        <a class="waves-effect waves-purple blue-grey darken-2 btn" onclick="logout()" id="logoutLink">Logout</a>
                      </li>
                 </ul>
             </div>
@@ -42,25 +42,25 @@
     <!--Cycle buttons for changing years and months-->
     <div class="month" id="monthBar">
         <ul>
-            <li onclick="decrementYear()" class="prev">
+            <li onclick="calendar.decrementYear()" class="prev">
                 <a class="waves-effect waves-purple blue btn">
                     <i class="material-icons left">arrow_back</i>Prev Year</a>
             </li>
-            <li onclick="decrementMonth()" class="prev">
+            <li onclick="calendar.decrementMonth()" class="prev">
                 <a class="waves-effect waves-purple blue-grey darken-2 btn">
                     <i class="material-icons left">arrow_back</i>Prev Month</a>
             </li>
-            <li onclick="incrementYear()" class="next">
+            <li onclick="calendar.incrementYear()" class="next">
                 <a class="waves-effect waves-purple blue btn">
                     <i class="material-icons right">arrow_forward</i>Next Year</a>
             </li>
-            <li onclick="incrementMonth()" class="next">
+            <li onclick="calendar.incrementMonth()" class="next">
                 <a class="waves-effect waves-purple blue-grey darken-2 btn">
                     <i class="material-icons right">arrow_forward</i>Next Month</a>
             </li>
             <li id="month" style="text-align: center;"></li>
             <li id="year" style="font-size: 30px; text-align: center;"></li>
-            <li id="reset" style="text-align: center;" onclick="resetToPresent()" class="reset">
+            <li id="reset" style="text-align: center;" onclick="calendar.resetToPresent()" class="reset">
                 <a class="waves-effect light blue-darken-3 btn">Reset to Present</a>
             </li>
 
@@ -90,10 +90,10 @@
             <input id="textInput" type="text" />
         </div>
         <div class="buttons">
-            <button onclick="create()"> Create</button>
-			<button onclick="loadEventsToEdit()"> Edit</button>
+            <button onclick="calendar.create()"> Create</button>
+			<button onclick="calendar.loadEventsToEdit()"> Edit</button>
         </div>
-        <button id="close-button" onclick="closeBox()">&#10005</button>
+        <button id="close-button" onclick="calendar.closeBox()">&#10005</button>
     </div>
 	
 	<div id="edit-form" class="inactive" style="top: 500; left: 500;">
@@ -101,14 +101,14 @@
         <p></p>
         <div class="text">
         </div>
-        <button id="close-button" onclick="closeEditBox()">&#10005</button>
+        <button id="close-button" onclick="calendar.closeEditBox()">&#10005</button>
     </div>
 
     <!--Calendar reset button-->
     <div class="reset">
         <ul>
             <li id="resetCalendar">
-                <a id="resetCalendar" onclick="deleteEvents()" class="waves-effect waves-purple blue-greu darken-2 btn-small">
+                <a id="resetCalendar" onclick="calendar.deleteEvents()" class="waves-effect waves-purple blue-greu darken-2 btn-small">
                     <i class="material-icons right"></i>Reset Calendar</a>
             </li>
         </ul>
