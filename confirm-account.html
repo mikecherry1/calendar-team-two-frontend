@@ -25,7 +25,7 @@
     function displayResult(result, err) {
         const message = document.getElementById("message");
         if (result === "success") {
-            message.innerText = "Successfully confirmed quickstart user. You may close this page.";
+            message.innerText = "Successfully confirmed. You may close this page.";
         }
         else if (result === "error") {
             message.innerText = "Unable to register user.\n\n" + err;
