@@ -8,7 +8,7 @@ let alarmTimes = [];
 let alarm = new Audio("http://soundbible.com/grab.php?id=2197&type=mp3");
 let calendar = {};
 
-let client =  stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');;
+let client =  stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
 let db = undefined;
 let credential = undefined;
 let username = '';
@@ -83,7 +83,7 @@ function login() {
     }
 }
 
-function logout() {
+function logout() {    
     loginButton = document.getElementById("loginLink");
     logoutButton = document.getElementById("logoutLink");
 

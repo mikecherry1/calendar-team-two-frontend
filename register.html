@@ -1,0 +1,47 @@
+<html>
+<!-- Stitch JavaScript SDK -->
+<!-- Base Stitch Browser SDK -->
+
+<head>
+    <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.8/stitch.js"></script>
+
+</head>
+
+<body>
+    <div>
+        <input type='text' id='username' placeholder='Enter Username' />
+        <br />
+        <input type='password' id='password' placeholder='Enter Password' />
+        <br />
+        <input type='button' value='Register' id='register' />
+    </div>
+</body>
+
+<script>
+    let client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
+
+    const emailPassClient = stitch.Stitch.defaultAppClient.auth.getProviderClient(
+        stitch.UserPasswordAuthProviderClient.factory
+    );
+
+    document.getElementById("register").onclick = function () {
+        registerAccount();
+    }
+
+    function registerAccount() {
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        emailPassClient.registerWithEmail(username, password)
+            .then(() => {
+                console.log("Successfully sent account confirmation email!");
+                /* code to direct user to check their email */
+            })
+            .catch(err => {
+                console.log("Error registering new user:", err);
+            });
+    }
+</script>
+
+
+</html>
