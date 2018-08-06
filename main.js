@@ -8,7 +8,7 @@ let alarmTimes = [];
 let alarm = new Audio("http://soundbible.com/grab.php?id=2197&type=mp3");
 let calendar = {};
 
-let client = undefined;
+let client =  stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');;
 let db = undefined;
 let credential = undefined;
 let username = '';
@@ -104,8 +104,6 @@ function logout() {
 }
 
 function tryToLoginFromLocalStorage() {
-    client = stitch.Stitch.initializeDefaultAppClient('calendar-urrdo');
-
     username = localStorage.getItem("username-calendar");
     password = localStorage.getItem("password-calendar");
 
