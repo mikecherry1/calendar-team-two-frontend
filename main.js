@@ -14,13 +14,12 @@ let credential = undefined;
 let username = '';
 let password = '';
 
-
 $( function() {
     $("#event-form").draggable({
-        containment: "window"
+        containment: "html"
     });
     $("#edit-form").draggable({
-        containment: "window"
+        containment: "html"
     });
   } 
 );
