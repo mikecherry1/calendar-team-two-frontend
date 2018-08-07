@@ -380,6 +380,8 @@ function Calendar() {
                 updateButton.innerHTML = "Update";
                 deleteButton.innerHTML = "Delete";
 
+                textInput0.type = "time";
+                
                 textInput0.value = this.events[i].time;
                 textInput1.value = this.events[i].note;
 
