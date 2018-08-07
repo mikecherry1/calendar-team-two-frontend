@@ -62,9 +62,8 @@
 #event-form {
     display: none;
     box-shadow: 0 2px 4px #3483;
-    position: fixed;
+    position: absolute;
     width: 300px;
-    transform: translate(-50%, -100%);
     z-index: 10;
     padding: 1rem;
     background-color: white;
@@ -145,19 +144,17 @@
 }
 
 #edit-form {
-    position:fixed;
-    height: 50%;
-    z-index: 60;
     display: none;
-    overflow-y: auto;
     box-shadow: 0 2px 4px #3483;
+    position: absolute;
     width: 300px;
-    transform: translate(25%, -100%);
+    z-index: 10;
     padding: 1rem;
     background-color: white;
     border: 1px #3483 solid;
     flex-direction: column;
     align-content: space-between;
+    overflow-y: auto;
 }
 
 #edit-form.active {

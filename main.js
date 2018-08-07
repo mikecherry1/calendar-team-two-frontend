@@ -14,6 +14,17 @@ let credential = undefined;
 let username = '';
 let password = '';
 
+
+$( function() {
+    $("#event-form").draggable({
+        containment: "window"
+    });
+    $("#edit-form").draggable({
+        containment: "window"
+    });
+  } 
+);
+
 //required for materialize
 window.addEventListener('load', load, false);
 $(document).ready(function () {
@@ -306,12 +317,14 @@ function Calendar() {
         this.loadEvents();
     }
 
-    this.loadEventsToEdit = function (momentDay = undefined) {
+    this.loadEventsToEdit = function (event, momentDay = undefined) {
         let eventForm = document.getElementById("event-form");
         let editForm = document.getElementById("edit-form");
 
         editForm.classList.remove("inactive");
         editForm.classList.add("active");
+        //editForm.style = "top: " + $("#event-form").css("top") + "; left: " + $("#event-form").css("left") + ";";
+        editForm.style = "top: " + eventForm.style.top + "; left: " + eventForm.style.left +";";
 
         let p = eventForm.getElementsByTagName("p")[0];
         let div = editForm.getElementsByTagName("div")[0]
@@ -615,9 +628,9 @@ function Calendar() {
 
         eventForm.classList.remove("inactive");
         eventForm.classList.add("active");
-        eventForm.style = "top: 75%; left: 50%";
+        //eventForm.style = "top: 75%; left: 50%";
 
-        //eventForm.style = "top: " + event.clientY + "; left: " + event.clientX;
+        eventForm.style = "top: " + event.clientY + "; left: " + event.clientX;
         let p = eventForm.getElementsByTagName("p")[0];
         let span = event.target.getElementsByTagName("span")[0];
         if (span == undefined) {
